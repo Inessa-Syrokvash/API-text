@@ -1,23 +1,53 @@
-import logo from './logo.svg';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [text, setText] = useState("");
+
+  //! Способ №1
+  /*
+  useEffect(() => {
+    getText();
+  }, [])
+
+  const getText = async () => {
+    const response = await fetch(`https://api.quotable.io/random`);
+    const data = await response.json();
+     // console.log(data.content);
+    setText(data.content);
+  }
+  */
+
+    //! Способ №2
+    /*
+    useEffect(() => {
+      const getText = async () => {
+        const response = await fetch(`https://api.quotable.io/random`);
+        const data = await response.json();
+        // console.log(data.content);
+        setText(data.content)
+      }
+      getText();
+    }, [])
+    */
+
+  
+    //! Способ №3
+    const getText = useCallback(async () => {
+      const response = await fetch(`https://api.quotable.io/random`);
+      const data = await response.json();
+      // console.log(data.content);
+      setText(data.content)
+    }, [])
+
+    useEffect(( )=> {
+      getText();
+    }, [getText])
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{content}</p>
     </div>
   );
 }
